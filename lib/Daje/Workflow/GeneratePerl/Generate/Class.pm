@@ -4,7 +4,7 @@ no warnings 'experimental::class';
 
 our $VERSION = '0.01';
 
-class Daje::Generate::Perl::Generate::Class :isa(Daje::Generate::Perl::Base::Common)  {
+class Daje::Workflow::GeneratePerl::Generate::Class:isa(Daje::Generate::Perl::Base::Common)  {
     use String::CamelCase qw(camelize);
 
     field $methods :param;
@@ -12,7 +12,7 @@ class Daje::Generate::Perl::Generate::Class :isa(Daje::Generate::Perl::Base::Com
     field $config :param;
 
     method generate() {
-        my $tpl = $self->template->get_data_section('class');
+        my $tpl = $self->templates->get_data_section('class');
         my $table_name = $self->json->{table_name};
         my $name_space = $config->{CLASS}->{name_space};
         my $base_name_space = $config->{CLASS}->{base_name_space};

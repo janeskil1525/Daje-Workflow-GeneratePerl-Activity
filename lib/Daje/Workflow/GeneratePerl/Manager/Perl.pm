@@ -4,9 +4,9 @@ use Mojo::Base 'Daje::Generate::Perl::Base::Common', -base, -signatures;
 use Daje::Workflow::GeneratePerl::Generate::Fields;
 use Daje::Workflow::GeneratePerl::Generate::Methods;
 use Daje::Workflow::GeneratePerl::Generate::Class;
-use Daje::Workflow::Generate::Output::Perl::Class;
-use Daje::Workflow::Generate::Perl::Generate::BaseClass;
-use Daje::Workflow::Generate::Perl::Generate::Interface;
+#use Daje::Workflow::Generate::Output::Perl::Class;
+#use Daje::Workflow::Generate::Perl::Generate::BaseClass;
+#use Daje::Workflow::Generate::Perl::Generate::Interface;
 
 our $VERSION = '0.01';
 
@@ -54,18 +54,18 @@ sub _generate_table_class($table) {
 
 sub _save_class($perl, $table) {
 
-    my $output = Daje::Generate::Output::Perl::Class->new(
-        config         => $config,
-        table_name     => $table->{table_name},
-        perl           => $perl,
-        name_space_dir => "name_space_dir",
-    );
-    $output->save_file();
+    # my $output = Daje::Generate::Output::Perl::Class->new(
+    #     config         => $config,
+    #     table_name     => $table->{table_name},
+    #     perl           => $perl,
+    #     name_space_dir => "name_space_dir",
+    # );
+    # $output->save_file();
 }
 
 sub _class($methods, $table, $fields) {
     my $template = $self->template();
-    my $class = Daje::Generate::Perl::Generate::Class->new(
+    my $class = Daje::Workflow::GeneratePerl::Generate::Class->new(
         json     => $table->{table},
         methods  => $methods,
         template => $template,
