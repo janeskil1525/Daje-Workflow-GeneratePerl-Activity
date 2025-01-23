@@ -1,4 +1,4 @@
-package Daje::Generate::Perl::Generate::Interface;
+package Daje::Workflow::GeneratePerl::Generate::Interface;
 use Mojo::Base 'Daje::Workflow::GeneratePerl::Base::Common' ,-base, -signatures;
 
 use String::CamelCase qw(camelize);

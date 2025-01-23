@@ -13,7 +13,7 @@ our $VERSION = '0.01';
 has 'success' ;
 has 'config' ;
 
-sub generate_classes() {
+sub generate_classes($self) {
     $self->_base_class();
     my $length = scalar @{$self->json->{tables}};
     for (my $i = 0; $i < $length; $i++) {
@@ -27,7 +27,7 @@ sub generate_classes() {
     return 1;
 }
 
-sub _generate_interface_class($table_name) {
+sub _generate_interface_class($self, $table_name) {
     my $template = $self->template();
     Daje::Generate::Perl::Generate::Interface->new(
         template => $template,
@@ -36,7 +36,7 @@ sub _generate_interface_class($table_name) {
     )->generate();
 }
 
-sub _base_class() {
+sub _base_class($self) {
     my $template = $self->template();
     Daje::Generate::Perl::Generate::BaseClass->new(
         template => $template,
@@ -45,14 +45,14 @@ sub _base_class() {
 
 }
 
-sub _generate_table_class($table) {
+sub _generate_table_class($self, $table) {
     my $fields = $self->_get_fields($table);
     my $methods = $self->_methods($fields, $table);
     my $perl = $self->_class($methods, $table, $fields);
     $self->_save_class($perl, $table->{table});
 }
 
-sub _save_class($perl, $table) {
+sub _save_class($self, $perl, $table) {
 
     # my $output = Daje::Generate::Output::Perl::Class->new(
     #     config         => $config,
@@ -63,7 +63,7 @@ sub _save_class($perl, $table) {
     # $output->save_file();
 }
 
-sub _class($methods, $table, $fields) {
+sub _class($self, $methods, $table, $fields) {
     my $template = $self->template();
     my $class = Daje::Workflow::GeneratePerl::Generate::Class->new(
         json     => $table->{table},
@@ -77,7 +77,7 @@ sub _class($methods, $table, $fields) {
     return $perl;
 }
 
-sub _methods($fields, $table) {
+sub _methods($self, $fields, $table) {
     my $template = $self->template();
     my $methods = Daje::Generate::Perl::Generate::Methods->new(
         json     => $table->{table},
@@ -89,21 +89,19 @@ sub _methods($fields, $table) {
     return $methods;
 }
 
-sub _generate_view_class($view) {
+sub _generate_view_class($self, $view) {
     $view = $view;
 }
 
-sub _get_fields($json) {
+sub _get_fields($self, $json) {
     my $template = $self->template();
-    my $fields = Daje::Generate::Perl::Generate::Fields->new(
+    my $fields = Daje::Workflow::GeneratePerl::Generate::Fields->new(
         json     => $json->{table},
         template => $template
     );
     $fields->generate();
     return $fields;
 }
-
-
 
 1;
 

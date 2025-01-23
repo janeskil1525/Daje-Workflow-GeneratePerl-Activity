@@ -1,6 +1,27 @@
 package Daje::Workflow::GeneratePerl::Generate::BaseClass;
 use Mojo::Base 'Daje::Workflow::GeneratePerl::Base::Common' ,-base, -signatures;
 
+# =head1 NAME
+#
+# Daje::Workflow::GeneratePerl::Generate::BaseClass - Create base class
+#
+#
+# REQUIRES
+# ========
+#
+#    use Mojo::Base
+#
+#
+# SYNOPSIS
+# ========
+#
+#   use Daje::Workflow::GeneratePerl::Generate::BaseClass;
+#
+#
+# METHODS
+# =======
+#
+#
 
 our $VERSION = '0.01';
 

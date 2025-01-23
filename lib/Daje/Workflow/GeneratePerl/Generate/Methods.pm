@@ -15,12 +15,12 @@ has 'select_fields' ;
 has 'select_method' ;
 
 sub generate($self) {
-    $pkey = $self->_get_from_pkey();
-    $fkey = $self->_get_from_fkey();
-    $insert = $self->_insert_method();
-    $update = $self->_update_method();
-    $select_fields = $self->_select_fields();
-    $select_method = $self->_select_method();
+    $self->pkey($self->_get_from_pkey());
+    $self->fkey($self->_get_from_fkey());
+    $self->insert($self->_insert_method());
+    $self->update($self->_update_method());
+    $self->select_fields($self->_select_fields());
+    $self->select_method($self->_select_method());
 }
 
 sub _select_method($self) {
@@ -57,9 +57,9 @@ sub _insert_method($self) {
 
 sub _get_from_fkey($self) {
     my $load_from_fkey = "";
-    my $f_key = $fields->foreign_keys();
+    my $f_key = $self->fields->foreign_keys();
     my $table_name = $self->json->{table_name};
-    my $select = $fields->select();
+    my $select = $self->fields->select();
     if (defined $f_key) {
         my $length = scalar @{$f_key};
         for (my $i = 0; $i < $length; $i++) {
