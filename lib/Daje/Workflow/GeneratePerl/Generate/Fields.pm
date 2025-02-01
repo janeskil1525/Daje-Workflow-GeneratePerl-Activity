@@ -29,19 +29,22 @@ has 'foreign_keys';
 sub generate($self) {
     my $column_names = $self->json->{column_names};
     my $length = scalar @{$column_names};
+    my @keys;
     for (my $i = 0; $i < $length; $i++) {
         if (index(@{$column_names}[$i]->{column_name},'_pkey') > -1){
             $self->primary_key(@{$column_names}[$i]->{column_name});
         }
         if (index(@{$column_names}[$i]->{column_name},'_fkey') > -1){
-            push (@{$self->foreign_keys}, @{$column_names}[$i]->{column_name});
+            push (@keys, @{$column_names}[$i]->{column_name});
         }
-        if (length($self->select) > 0) {
-            $self->select($self->select .= ", '" . @{$column_names}[$i]->{column_name} . "'");
+        if (defined($self->select) and length($self->select) > 0) {
+            my $select = $self->select();
+            $self->select($select .= ", '" . @{$column_names}[$i]->{column_name} . "'");
         } else {
             $self->select("'" . @{$column_names}[$i]->{column_name} . "'");
         }
     }
+    $self->foreign_keys(\@keys) if @keys and scalar(@keys) > 0;
 }
 
 1;

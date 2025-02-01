@@ -27,7 +27,7 @@ use Mojo::Base 'Daje::Workflow::GeneratePerl::Base::Common' ,-base, -signatures;
 our $VERSION = '0.01';
 
 sub generate($self) {
-    my $tpl = $self->template->get_data_section('baseclass');
+    my $tpl = $self->templates->get_data_section('baseclass');
 
     my $base_name_space = $self->context->{context}->{perl}->{base_name_space};
 

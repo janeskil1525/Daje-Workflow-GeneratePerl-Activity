@@ -1,7 +1,7 @@
 package Daje::Workflow::GeneratePerl::Activity;
 use Mojo::Base 'Daje::Workflow::Common::Activity::Base', -base, -signatures;
 
-use Mojo::JSON qw{to_json};
+use Mojo::JSON qw{to_json from_json};
 
 #
 # NAME
@@ -40,18 +40,17 @@ use Daje::Workflow::GeneratePerl::Generate::BaseClass;
 use Daje::Workflow::GeneratePerl::Generate::Interface;
 use Daje::Workflow::Templates;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 has 'success' ;
+has 'templates';
+has 'json';
 
 sub generate_classes($self) {
 
-    my $templates = Daje::Workflow::Templates->new(
-        data_sections => $self->activity_data->{template}->{data_sections},
-        source        => $self->activity_data->{template}->{source},
-        error         => $self->error,
-    )->load_templates();
-    $self->templates($templates);
+    $self->_load_schema();
+    $self->_load_template() unless $self->error->has_error();
+    return 0 if $self->error->has_error();
 
     $self->_base_class();
     my $length = scalar @{$self->json->{tables}};
@@ -59,11 +58,32 @@ sub generate_classes($self) {
         $self->_generate_table_class(@{$self->json->{tables}}[$i]);
         $self->_generate_interface_class(@{$self->json->{tables}}[$i]->{table}->{table_name});
     }
-    $length = scalar $self->json->{views};
+    $length = scalar @{$self->json->{views}};
     for (my $i = 0; $i < $length; $i++) {
         $self->_generate_view_class(@{$self->json->{views}}[$i]);
     }
     return 1;
+}
+
+sub _load_schema($self) {
+    eval {
+        my $schema = from_json(@{$self->context->{context}->{schema}}[0]->{data});
+        $self->json($schema);
+    };
+    $self->error->add_error($@) if defined $@;
+}
+
+sub _load_template($self) {
+
+    eval {
+        my $templates = Daje::Workflow::Templates->new(
+            data_sections => $self->activity_data->{template}->{data_sections},
+            source        => $self->activity_data->{template}->{source},
+            error         => $self->error,
+        )->load_templates();
+        $self->templates($templates);
+    };
+    $self->error->add_error($@) if defined $@;
 }
 
 sub _generate_interface_class($self, $table_name) {
@@ -96,7 +116,7 @@ sub _save_class($self, $perl, $table) {
     my $data->{file} = $self->context->{context}->{perl}->{name_space_dir} . $table->{table_name} . ".pm";
     $data->{data} = to_json $perl;
     $data->{only_new} = 0;
-    push(@{$self->context->{context}->{perl}},$data);
+    push(@{$self->context->{context}->{perlfiles}},$data);
 }
 
 sub _class($self, $methods, $table, $fields) {
@@ -104,7 +124,7 @@ sub _class($self, $methods, $table, $fields) {
     my $class = Daje::Workflow::GeneratePerl::Generate::Class->new(
         json     => $table->{table},
         methods  => $methods,
-        template => $template,
+        templates => $template,
         context   => $self->context,
         fields   => $fields,
     );
@@ -118,7 +138,7 @@ sub _methods($self, $fields, $table) {
     my $methods = Daje::Generate::Perl::Generate::Methods->new(
         json     => $table->{table},
         fields   => $fields,
-        template => $template
+        templates => $template
     );
     $methods->generate();
 
@@ -133,7 +153,7 @@ sub _get_fields($self, $json) {
     my $template = $self->templates();
     my $fields = Daje::Workflow::GeneratePerl::Generate::Fields->new(
         json     => $json->{table},
-        template => $template
+        templates => $template
     );
     $fields->generate();
     return $fields;
