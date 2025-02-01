@@ -40,7 +40,7 @@ use Daje::Workflow::GeneratePerl::Generate::BaseClass;
 use Daje::Workflow::GeneratePerl::Generate::Interface;
 use Daje::Workflow::Templates;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 has 'success' ;
 has 'templates';
@@ -48,6 +48,7 @@ has 'json';
 
 sub generate_classes($self) {
 
+    @{$self->context->{context}->{perlfiles}} = ();
     $self->_load_schema();
     $self->_load_template() unless $self->error->has_error();
     return 0 if $self->error->has_error();
@@ -116,6 +117,7 @@ sub _save_class($self, $perl, $table) {
     my $data->{file} = $self->context->{context}->{perl}->{name_space_dir} . $table->{table_name} . ".pm";
     $data->{data} = to_json $perl;
     $data->{only_new} = 0;
+    $data->{path} = 1;
     push(@{$self->context->{context}->{perlfiles}},$data);
 }
 

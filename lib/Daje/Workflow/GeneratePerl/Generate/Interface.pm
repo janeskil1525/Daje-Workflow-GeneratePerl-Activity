@@ -25,6 +25,7 @@ sub generate($self) {
     my $data->{file} = $self->context->{context}->{perl}->{interface_space_dir} . "$table.pm";
     $data->{data} = $tpl;
     $data->{only_new} = 1;
+    $data->{path} = 1;
     push(@{$self->context->{context}->{perlfiles}}, $data);
 }
 

@@ -37,7 +37,8 @@ sub generate($self) {
 
     my $data->{file} = $self->context->{context}->{perl}->{base_space_dir} . "Base.pm";
     $data->{data} = $tpl;
-    push(@{$self->context->{context}->{perlfiles}}, $date);
+    $data->{path} = 1;
+    push(@{$self->context->{context}->{perlfiles}}, $data);
 }
 
 1;
