@@ -156,8 +156,9 @@ sub _generate_view_class($self, $view) {
     my $template = $self->templates();
 
     my $perl = Daje::Workflow::GeneratePerl::Generate::View->new(
-        json => $view,
-        templates => $template,
+        json        => $view,
+        templates   => $template,
+        context     => $self->context,
     )->generate();
 
     $self->_save_class($perl, $view->{table});
