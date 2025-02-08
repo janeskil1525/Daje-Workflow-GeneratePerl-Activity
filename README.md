@@ -13,6 +13,10 @@ Daje::Workflow::GeneratePerl::Activity is a module that generates perl code
 
 # REQUIRES
 
+[Daje::Workflow::Templates](https://metacpan.org/pod/Daje%3A%3AWorkflow%3A%3ATemplates) 
+
+[Daje::Workflow::GeneratePerl::Generate::View](https://metacpan.org/pod/Daje%3A%3AWorkflow%3A%3AGeneratePerl%3A%3AGenerate%3A%3AView) 
+
 [Daje::Workflow::GeneratePerl::Generate::Interface](https://metacpan.org/pod/Daje%3A%3AWorkflow%3A%3AGeneratePerl%3A%3AGenerate%3A%3AInterface) 
 
 [Daje::Workflow::GeneratePerl::Generate::BaseClass](https://metacpan.org/pod/Daje%3A%3AWorkflow%3A%3AGeneratePerl%3A%3AGenerate%3A%3ABaseClass) 
@@ -22,6 +26,8 @@ Daje::Workflow::GeneratePerl::Activity is a module that generates perl code
 [Daje::Workflow::GeneratePerl::Generate::Methods](https://metacpan.org/pod/Daje%3A%3AWorkflow%3A%3AGeneratePerl%3A%3AGenerate%3A%3AMethods) 
 
 [Daje::Workflow::GeneratePerl::Generate::Fields](https://metacpan.org/pod/Daje%3A%3AWorkflow%3A%3AGeneratePerl%3A%3AGenerate%3A%3AFields) 
+
+[String::CamelCase](https://metacpan.org/pod/String%3A%3ACamelCase) 
 
 [Mojo::JSON](https://metacpan.org/pod/Mojo%3A%3AJSON) 
 

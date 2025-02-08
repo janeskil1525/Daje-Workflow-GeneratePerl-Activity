@@ -161,7 +161,7 @@ sub _generate_view_class($self, $view) {
         context     => $self->context,
     )->generate();
 
-    $self->_save_class($perl, $view->{table});
+    $self->_save_class($perl, $view->{view});
 }
 
 sub _get_fields($self, $json) {
@@ -177,6 +177,7 @@ sub _get_fields($self, $json) {
 
 1;
 __END__
+
 
 
 
@@ -206,6 +207,10 @@ Daje::Workflow::GeneratePerl::Activity is a module that generates perl code
 
 =head1 REQUIRES
 
+L<Daje::Workflow::Templates> 
+
+L<Daje::Workflow::GeneratePerl::Generate::View> 
+
 L<Daje::Workflow::GeneratePerl::Generate::Interface> 
 
 L<Daje::Workflow::GeneratePerl::Generate::BaseClass> 
@@ -215,6 +220,8 @@ L<Daje::Workflow::GeneratePerl::Generate::Class>
 L<Daje::Workflow::GeneratePerl::Generate::Methods> 
 
 L<Daje::Workflow::GeneratePerl::Generate::Fields> 
+
+L<String::CamelCase> 
 
 L<Mojo::JSON> 
 
