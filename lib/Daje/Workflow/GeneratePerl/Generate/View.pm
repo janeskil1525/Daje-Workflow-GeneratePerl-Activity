@@ -12,10 +12,9 @@ has 'foreign_keys_arr';
 has 'methods';
 
 sub generate($self) {
-    my $column_names = $self->json->{column_names};
 
     my $tpl = $self->templates->get_data_section('view_list_class');
-    my $table_name = $self->json->{table_name};
+    my $table_name = $self->json->{view}->{table_name};
     my $name_space = $self->context->{context}->{perl}->{name_space};
     my $base_name_space = $self->context->{context}->{perl}->{base_name_space};
     my $class_name = camelize($table_name);
@@ -95,7 +94,7 @@ sub _keys($self) {
 }
 
 sub _get_fields($self) {
-    my $column_names = $self->json->{column_names};
+    my $column_names = $self->json->{view}}{column_names};
     my $length = scalar @{$column_names};
     my @keys;
     my @pkeys;
