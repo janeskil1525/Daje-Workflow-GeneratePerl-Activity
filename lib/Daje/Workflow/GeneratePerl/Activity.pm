@@ -33,14 +33,17 @@ use Mojo::JSON qw{to_json from_json};
 # janeskil1525 E<lt>janeskil1525@gmail.comE<gt>
 #
 
+use String::CamelCase qw(camelize);
+
 use Daje::Workflow::GeneratePerl::Generate::Fields;
 use Daje::Workflow::GeneratePerl::Generate::Methods;
 use Daje::Workflow::GeneratePerl::Generate::Class;
 use Daje::Workflow::GeneratePerl::Generate::BaseClass;
 use Daje::Workflow::GeneratePerl::Generate::Interface;
+use Daje::Workflow::GeneratePerl::Generate::View;
 use Daje::Workflow::Templates;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 has 'success' ;
 has 'templates';
@@ -62,6 +65,7 @@ sub generate_classes($self) {
     $length = scalar @{$self->json->{views}};
     for (my $i = 0; $i < $length; $i++) {
         $self->_generate_view_class(@{$self->json->{views}}[$i]);
+        $self->_generate_interface_class(@{$self->json->{views}}[$i]->{view}->{table_name});
     }
     return 1;
 }
@@ -114,8 +118,8 @@ sub _generate_table_class($self, $table) {
 
 sub _save_class($self, $perl, $table) {
 
-    my $data->{file} = $self->context->{context}->{perl}->{name_space_dir} . $table->{table_name} . ".pm";
-    $data->{data} = to_json $perl;
+    my $data->{file} = $self->context->{context}->{perl}->{name_space_dir} . camelize($table->{table_name}) . ".pm";
+    $data->{data} = $perl;
     $data->{only_new} = 0;
     $data->{path} = 1;
     push(@{$self->context->{context}->{perlfiles}},$data);
@@ -149,6 +153,14 @@ sub _methods($self, $fields, $table) {
 
 sub _generate_view_class($self, $view) {
     $view = $view;
+    my $template = $self->templates();
+
+    my $perl = Daje::Workflow::GeneratePerl::Generate::View->new(
+        json => $view,
+        templates => $template,
+    )->generate();
+
+    $self->_save_class($perl, $table->{table});
 }
 
 sub _get_fields($self, $json) {
