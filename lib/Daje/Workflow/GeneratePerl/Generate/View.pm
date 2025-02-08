@@ -101,7 +101,7 @@ sub _get_fields($self) {
     my @pkeys;
     for (my $i = 0; $i < $length; $i++) {
         if (index(@{$column_names}[$i]->{column_name},'_pkey') > -1){
-            push(@pkeys, @{$column_names}[$i]->{column_name}));
+            push(@pkeys, @{$column_names}[$i]->{column_name});
         }
         if (index(@{$column_names}[$i]->{column_name},'_fkey') > -1){
             push (@keys, @{$column_names}[$i]->{column_name});

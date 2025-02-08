@@ -160,7 +160,7 @@ sub _generate_view_class($self, $view) {
         templates => $template,
     )->generate();
 
-    $self->_save_class($perl, $table->{table});
+    $self->_save_class($perl, $view->{table});
 }
 
 sub _get_fields($self, $json) {
