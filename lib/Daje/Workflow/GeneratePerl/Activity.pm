@@ -43,7 +43,7 @@ use Daje::Workflow::GeneratePerl::Generate::Interface;
 use Daje::Workflow::GeneratePerl::Generate::View;
 use Daje::Workflow::Templates;
 
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 has 'success' ;
 has 'templates';
