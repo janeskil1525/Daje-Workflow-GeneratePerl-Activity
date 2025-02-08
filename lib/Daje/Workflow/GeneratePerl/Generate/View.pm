@@ -94,7 +94,7 @@ sub _keys($self) {
 }
 
 sub _get_fields($self) {
-    my $column_names = $self->json->{view}}{column_names};
+    my $column_names = $self->json->{view}->{column_names};
     my $length = scalar @{$column_names};
     my @keys;
     my @pkeys;
