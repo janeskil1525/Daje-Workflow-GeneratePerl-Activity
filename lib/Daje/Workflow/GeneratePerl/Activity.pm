@@ -43,7 +43,7 @@ use Daje::Workflow::GeneratePerl::Generate::Interface;
 use Daje::Workflow::GeneratePerl::Generate::View;
 use Daje::Workflow::Templates;
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 has 'success' ;
 has 'templates';
@@ -69,7 +69,7 @@ sub generate_classes($self) {
             @{$self->json->{views}}[$i]->{view}->{table_name},
             'view_name_space',
             'view_name_interface',
-            'interface_space_dir'
+            'view_interface_space_dir'
         );
     }
     return 1;
