@@ -16,13 +16,13 @@ sub generate($self) {
 
     my $tpl = $self->templates->get_data_section('view_list_class');
     my $table_name = $self->json->{view}->{table_name};
-    my $name_space = $self->context->{context}->{perl}->{name_space};
+    my $name_space = $self->context->{context}->{perl}->{view_name_space};
     my $base_name_space = $self->context->{context}->{perl}->{base_name_space};
     my $class_name = camelize($table_name);
     my $base_class_name = "Base";
 
     my $date = localtime();
-
+    $self->_get_fields();
     $self->_methods();
     my $methods = $self->methods();
 
@@ -44,7 +44,7 @@ sub generate($self) {
 sub _has_methods($self, $view) {
     my $tpl = $self->templates->get_data_section('view_fields_method');
 
-    $self->_get_fields();
+
     $self->_keys();
 
     my $pkey = $self->primary_keys();
